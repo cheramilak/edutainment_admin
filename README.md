@@ -1,27 +1,58 @@
-# Laravel + Livewire Starter Kit
+# Edutainment App 🎮📖
+An **educational storytelling and children's games app** designed to provide interactive and culturally rich learning experiences. This project is developed as a **final year university project** using **Flutter** for the mobile app and **Laravel** for the backend.
 
-## Introduction
+## ✨ Features
+- 📚 **Storytelling** – Engaging stories with visuals and audio.
+- 🎮 **Interactive Games** – Fun and educational games for kids.
+- 🌍 **Cultural Content** – Stories and games based on Ethiopian heritage.
+- 🔐 **User Authentication** – Secure login/signup system.
+- 📷 **Image Uploads** – Feature for uploading user-generated content.
+- 🛒 **Checkout System** – Supports in-app purchases (if applicable).
 
-Our Laravel + [Livewire](https://livewire.laravel.com) starter kit provides a robust, modern starting point for building Laravel applications with a Livewire frontend.
+## 🏗️ Tech Stack
+### **Frontend (Mobile App)**
+- Flutter (Dart)
+- Provider/Bloc for state management
+- Responsive UI
+- Flutter app repo https://github.com/nahommb/edutainment-app
 
-Livewire is a powerful way of building dynamic, reactive, frontend UIs using just PHP. It's a great fit for teams that primarily use Blade templates and are looking for a simpler alternative to JavaScript-driven SPA frameworks like React and Vue.
+### **Backend**
+- Laravel (PHP)
+- MySQL
+- RESTful API
 
-This Livewire starter kit utilizes Livewire 3, Laravel Volt, TypeScript, Tailwind, and the [Flux UI](https://fluxui.dev) component library.
+## 🚀 Installation
 
-## Official Documentation
+### **How to run the Repository**
+```bash
+git clone https://github.com/cheramilak/edutainment_admin.git
+```
+```bash
+cd edutainment_admin
+```
+```bash
+composer update
+```
+```bash
+cp .env.example .env
+```
+```bash
+php artisan key:generate
+```
+```bash
+php artisan migrate:refresh
+```
+```bash
+php artisan db:seed
+```
+```bash
+npm install
+```
+```bash
+npm run dev
+```
+```bash
+php artisan serve
+```
 
-Documentation for all Laravel starter kits can be found on the [Laravel website](https://laravel.com/docs/starter-kits).
-
-## Contributing
-
-Thank you for considering contributing to our starter kit! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## License
-
-The Laravel + Livewire starter kit is open-sourced software licensed under the MIT license.
-
-
+check server running at http://127.0.0.1:8000
