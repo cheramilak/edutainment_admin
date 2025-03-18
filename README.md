@@ -61,4 +61,9 @@ check server running at http://127.0.0.1:8000
 # To-Do List
 - Implement authentication system ✅
 - Design the UI for dashboard ✅
--  setup db design
+- Database design ✅
+- Admin management  quiz
+- admin managment story
+- setup integrateion for api
+- APi authentication
+- Add endpoint
