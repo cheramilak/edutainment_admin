@@ -56,3 +56,9 @@ php artisan serve
 ```
 
 check server running at http://127.0.0.1:8000
+
+
+# To-Do List
+- Implement authentication system ✅
+- Design the UI for dashboard ✅
+-  setup db design
