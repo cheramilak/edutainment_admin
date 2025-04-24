@@ -46,8 +46,8 @@
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     <flux:button variant="primary" wire:click="edit('{{ $item->id }}')" >Edit</flux:button>
-                                    <a href="{{ route('quizQuestions',$item->slug) }}">
-                                        <flux:button >Questions</flux:button>
+                                    <a href="{{ route('storyContent',$item->slug) }}">
+                                        <flux:button >Content</flux:button>
                                     </a>
 
                                 </td>
