@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\QuizManagment;
+use App\Livewire\QuizQuestionForm;
+use App\Livewire\QuizQuestionManagment;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -21,5 +23,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/quizs',QuizManagment::class)->name('quiz');
+Route::get('quiz-questions/{slug}',QuizQuestionManagment::class)->name('quizQuestions');
+route::get('add-quiz-questions/{quiz}',QuizQuestionForm::class)->name('addQuizQuestion');
+route::get('edit-quiz-questions/{slug}',QuizQuestionForm::class)->name('editQuizQuestion');
 
 require __DIR__.'/auth.php';
