@@ -3,9 +3,7 @@
         <flux:heading>{{  'Quiz' }}</flux:heading>
         <flux:subheading>{{ 'Managem quiz' }}</flux:subheading>
         <div class="mt-5 w-full max-w">
-            <flux:modal.trigger name="quiz-form">
-                <flux:button>Add new</flux:button>
-            </flux:modal.trigger>
+                <flux:button wire:click='add' >Add new</flux:button>
             <div class="mt-3 relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -19,7 +17,6 @@
                             <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
-
                             <th scope="col" class="px-6 py-3">
                                 <span class="sr-only">Opration</span>
                             </th>
@@ -42,7 +39,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                    <flux:button variant="primary" wire:click="edit('{{ $item->id }}')" >Edit</flux:button>
                                 </td>
                             </tr>
                         @endforeach
@@ -50,6 +47,7 @@
                 </table>
             </div>
         </div>
-        @livewire('form.quiz-form', )
     </div>
+            @include('livewire.components.quiz-form')
+
 </div>
