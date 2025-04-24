@@ -15,6 +15,7 @@
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('quiz')" :current="request()->routeIs('quiz')" wire:navigate>{{ __('Quiz') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('story')" :current="request()->routeIs('story')" wire:navigate>{{ __('Story') }}</flux:navlist.item>
 
                 </flux:navlist.group>
             </flux:navlist>
