@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->tinyInteger('type')->default(0)->comment('0 = child,1 admin');
             $table->boolean('status')->default(1);
+            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

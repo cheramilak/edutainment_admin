@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -62,5 +63,72 @@ class AuthController extends Controller
             'token' => $token->plainTextToken,
         ];
         return $this->success($data,'Success');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'oldPassword' => 'required|string',
+            'newPassword' => 'required|string|min:6'
+        ]);
+
+        if($validator->fails())
+        {
+            return $this->validationError($validator->errors()->first());
+        }
+        $user = Auth::user();
+        if(!Hash::check($request->oldPassword,User::find($user->id)))
+        {
+            return $this->validationError('Wrong password');
+        }
+        $user = User::find($user->id);
+        $user->password = Hash::make($request->newPassword);
+        $user->save();
+        return $this->success(null,'Success');
+    }
+
+    public function updateProfile(Request $request)
+    {
+     $validator = Validator::make($request->all(),[
+            'name' => 'required|string|min:3',
+            'image' => 'nullable|image',
+            'email' => 'nullable|email'
+        ]);
+
+        if($validator->fails())
+        {
+            return $this->validationError($validator->errors()->first());
+        }
+        $auth = Auth::user();
+        $user = User::find($auth->id);
+        if($request->email)
+        {
+            if($request->email != $user->email)
+            {
+                if(User::where('email',$request->email)->first())
+                {
+                    return $this->validationError('Email address is already taken');
+                }
+                $user->email = $request->email;
+            }
+        }
+        if($request->image)
+        {
+            $user->image = $request->image->store('public','profile') ?? null;
+        }
+        $user->name = $request->name;
+        $user->save();
+
+        $data = [
+            'user' => $user
+        ];
+
+        return $this->success($data);
+    }
+
+    public function logout(Request $request)
+    {
+         $request->user()->currentAccessToken()->delete();
+        return $this->success(null,'logout success');
     }
 }
