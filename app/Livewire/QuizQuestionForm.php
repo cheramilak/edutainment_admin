@@ -13,7 +13,7 @@ class QuizQuestionForm extends Component
     use WithFileUploads;
     public $image,$question,$status,$answer;
     public $questions,$game;
-    public $options = ['',''];
+    public $options = [['opt' => ''],['opt' => '']];
     public $quiz;
 
     protected function rules(){
@@ -22,7 +22,7 @@ class QuizQuestionForm extends Component
             'status' => 'nullable|boolean',
             'answer' => 'required|integer',
             'question' => 'required',
-            'options.*' => 'required|string',
+            'options.*.opt' => 'required|string',
         ];
     }
     public function mount($slug = null,$quiz = null){
@@ -38,7 +38,7 @@ class QuizQuestionForm extends Component
             $this->options = [];
             foreach($options as $index => $option)
             {
-                $this->options[] = ['id' => $option->id,'en' => $option->option];
+                $this->options[] = ['id' => $option->id,'opt' => $option->option];
                 if($option->isCorrect){
                       $this->answer = $index+1;
                 }
@@ -71,14 +71,14 @@ class QuizQuestionForm extends Component
             if($option['id'] ?? null)
             {
                 $opt = QuizQuestionOption::find($option['id']);
-                $opt->option = $option['en'];
+                $opt->option = $option['opt'];
                 $opt->isCorrect = $index+1 == $this->answer ? 1 : 0;
                 $opt->save();
             }
             else
             {
                 $opt = new QuizQuestionOption();
-                $opt->option = $option;
+                $opt->option = $option['opt'];
                 $opt->isCorrect = $index+1 == $this->answer ? 1 : 0;
                 $opt->question_id = $question->id;
                 $opt->save();
@@ -88,7 +88,7 @@ class QuizQuestionForm extends Component
     }
 
     public function addOptions(){
-        $this->options[] = [''];
+        $this->options[] = ['opt' => ''];
     }
 
     public function removeOptions($index)

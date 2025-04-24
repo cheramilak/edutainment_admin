@@ -1,12 +1,7 @@
 @foreach ($options as $index => $option)
     <div class="flex item-center">
         <div class="w-full ml-1 mb-1">
-          @if (isset($options[$index]['en']) )
-              <flux:input label="Option {{ $index + 1}}" wire:model="options.{{ $index }}.en" placeholder="option.." />
-
-          @else
-                <flux:input label="Option {{ $index + 1}}" wire:model="options.{{ $index }}" placeholder="option.." />
-          @endif
+            <flux:input label="Option {{ $index + 1}}" wire:model="options.{{ $index }}.opt" placeholder="option.." />
         </div>
         <flux:badge  wire:click="removeOptions({{ $index }})" color="red">
             <flux:badge.close size="sm" />
