@@ -31,4 +31,5 @@ route::get('edit-quiz-questions/{slug}',QuizQuestionForm::class)->name('editQuiz
 Route::get('/story',StoryManagment::class)->name('story');
 Route::get('/story-content/{slug}',StoryContentManagment::class)->name('storyContent');
 
+
 require __DIR__.'/auth.php';

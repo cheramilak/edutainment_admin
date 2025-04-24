@@ -80,9 +80,14 @@ class HomeController extends Controller
 
         $todayLeaderboard = DB::table('quiz_leaderboards')
             ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
-            ->select('user_id', DB::raw('SUM(correctAnswer) as total_correct'))
-            ->whereDate('updated_at', $today)
-            ->groupBy('user_id')
+            ->select(
+                'users.id as user_id',
+            'users.name',
+            'users.email',
+            'users.image',
+            DB::raw('SUM(correctAnswer) as total_correct'))
+            ->whereDate('quiz_leaderboards.updated_at', $today)
+            ->groupBy('users.id', 'users.name', 'users.email','users.image')
             ->orderByDesc('total_correct')
             ->get();
         $startOfMonth = Carbon::now()->startOfMonth();
@@ -90,15 +95,21 @@ class HomeController extends Controller
 
         $monthlyLeaderboard = DB::table('quiz_leaderboards')
         ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
-            ->select('user_id', DB::raw('SUM(correctAnswer) as total_correct'))
-            ->whereBetween('updated_at', [$startOfMonth, $endOfMonth])
-            ->groupBy('user_id')
+            ->select('users.id as user_id',
+            'users.name',
+            'users.email',
+            'users.image', DB::raw('SUM(correctAnswer) as total_correct'))
+            ->whereBetween('quiz_leaderboards.updated_at', [$startOfMonth, $endOfMonth])
+            ->groupBy('users.id', 'users.name', 'users.email','users.image')
             ->orderByDesc('total_correct')
             ->get();
         $globalLeaderboard = DB::table('quiz_leaderboards')
         ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
-        ->select('user_id', DB::raw('SUM(correctAnswer) as total_correct'))
-        ->groupBy('user_id')
+        ->select('users.id as user_id',
+            'users.name',
+            'users.email',
+            'users.image', DB::raw('SUM(correctAnswer) as total_correct'))
+        ->groupBy('users.id', 'users.name', 'users.email','users.image')
         ->orderByDesc('total_correct')
         ->get();
 

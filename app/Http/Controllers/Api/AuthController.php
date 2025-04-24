@@ -16,7 +16,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|min:3',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'image' => 'nullable|image',
         ]);
 
         if($validator->fails())
@@ -28,6 +29,13 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->type = 0;
+        if($request->image)
+        {
+            $user->image = $request->image->store('public','profile') ?? null;
+        }
+        else{
+            $user->image = null;
+        }
         $user->status = 1;
 
         $user->save();
@@ -77,7 +85,7 @@ class AuthController extends Controller
             return $this->validationError($validator->errors()->first());
         }
         $user = Auth::user();
-        if(!Hash::check($request->oldPassword,User::find($user->id)))
+        if(!Hash::check($request->oldPassword,User::find($user->id)->password))
         {
             return $this->validationError('Wrong password');
         }
@@ -114,7 +122,7 @@ class AuthController extends Controller
         }
         if($request->image)
         {
-            $user->image = $request->image->store('public','profile') ?? null;
+            $user->image = $request->image->store('profile','public') ?? null;
         }
         $user->name = $request->name;
         $user->save();

@@ -16,9 +16,9 @@ Route::prefix('v1/')->group(function (){
         route::post('changePassword','changePassword')->middleware('auth:sanctum');
     });
 
-    Route::middleware('auth:sanctom')->controller(HomeController::class)->group( function (){
+    Route::middleware('auth:sanctum')->controller(HomeController::class)->group( function (){
         route::get('getQuiz','getQuiz');
-        route::get('getQuizQuestions/slug','getQuizQuestions');
+        route::get('getQuizQuestions/{slug}','getQuizQuestions');
         route::get('getLaderbaord','getLaderbaord');
         route::get('getStory','getStory');
         route::post('setLeaderboard','setLeaderboard');
