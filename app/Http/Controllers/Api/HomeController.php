@@ -61,6 +61,7 @@ class HomeController extends Controller
         {
             $leaderboard->wrongAnswer = $request->wrongAnswer;
             $leaderboard->correctAnswer = $request->correctAnswer;
+            $leaderboard->updated_at = now();
             $leaderboard->save();
             return $this->success(null,'success');
         }
