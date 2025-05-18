@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +6,7 @@ use App\Models\Quiz;
 use App\Models\QuizLeaderboard;
 use App\Models\QuizQuestion;
 use App\Models\Story;
+use App\Models\WordPuzzle;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,10 +17,10 @@ class HomeController extends Controller
 {
     public function getQuiz()
     {
-        $quiz = Quiz::where('status',1)->get();
+        $quiz = Quiz::where('status', 1)->get();
 
         $data = [
-            'quiz' => $quiz
+            'quiz' => $quiz,
         ];
 
         return $this->success($data);
@@ -28,15 +28,14 @@ class HomeController extends Controller
 
     public function getQuizQuestions($slug)
     {
-        $quiz = Quiz::where('status',1)->where('slug',$slug)->first();
-        if(!$quiz)
-        {
+        $quiz = Quiz::where('status', 1)->where('slug', $slug)->first();
+        if (! $quiz) {
             return $this->error('not found');
         }
-        $questions = QuizQuestion::where('quiz_id',$quiz->id)->with('options')->get();
-        $data = [
-            'quiz' => $quiz,
-            'questions' => $questions
+        $questions = QuizQuestion::where('quiz_id', $quiz->id)->with('options')->get();
+        $data      = [
+            'quiz'      => $quiz,
+            'questions' => $questions,
         ];
 
         return $this->success($data);
@@ -44,35 +43,33 @@ class HomeController extends Controller
 
     public function setLeaderboard(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'correctAnswer' => 'required|integer',
-            'wrongAnswer' => 'required|integer',
-            'quizId' => 'required|integer'
+            'wrongAnswer'   => 'required|integer',
+            'quizId'        => 'required|integer',
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return $this->validationError($validator->errors()->first());
         }
 
-        $user = Auth::user();
-        $leaderboard = QuizLeaderboard::where('user_id',$user->id)->where('quiz_id',$request->quizId)->first();
-        if($leaderboard)
-        {
-            $leaderboard->wrongAnswer = $request->wrongAnswer;
+        $user        = Auth::user();
+        $leaderboard = QuizLeaderboard::where('user_id', $user->id)->where('quiz_id', $request->quizId)->first();
+        if ($leaderboard) {
+            $leaderboard->wrongAnswer   = $request->wrongAnswer;
             $leaderboard->correctAnswer = $request->correctAnswer;
-            $leaderboard->updated_at = now();
+            $leaderboard->updated_at    = now();
             $leaderboard->save();
-            return $this->success(null,'success');
+            return $this->success(null, 'success');
         }
-        $leaderboard = new QuizLeaderboard();
-        $leaderboard->wrongAnswer = $request->wrongAnswer;
+        $leaderboard                = new QuizLeaderboard();
+        $leaderboard->wrongAnswer   = $request->wrongAnswer;
         $leaderboard->correctAnswer = $request->correctAnswer;
-        $leaderboard->user_id = $user->id;
-        $leaderboard->quiz_id = $request->quizId;
+        $leaderboard->user_id       = $user->id;
+        $leaderboard->quiz_id       = $request->quizId;
         $leaderboard->save();
 
-        return $this->success(null,'success');
+        return $this->success(null, 'success');
     }
 
     public function getLaderbaord()
@@ -83,41 +80,41 @@ class HomeController extends Controller
             ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
             ->select(
                 'users.id as user_id',
-            'users.name',
-            'users.email',
-            'users.image',
-            DB::raw('SUM(correctAnswer) as total_correct'))
+                'users.name',
+                'users.email',
+                'users.image',
+                DB::raw('SUM(correctAnswer) as total_correct'))
             ->whereDate('quiz_leaderboards.updated_at', $today)
-            ->groupBy('users.id', 'users.name', 'users.email','users.image')
+            ->groupBy('users.id', 'users.name', 'users.email', 'users.image')
             ->orderByDesc('total_correct')
             ->get();
         $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
+        $endOfMonth   = Carbon::now()->endOfMonth();
 
         $monthlyLeaderboard = DB::table('quiz_leaderboards')
-        ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
+            ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
             ->select('users.id as user_id',
-            'users.name',
-            'users.email',
-            'users.image', DB::raw('SUM(correctAnswer) as total_correct'))
+                'users.name',
+                'users.email',
+                'users.image', DB::raw('SUM(correctAnswer) as total_correct'))
             ->whereBetween('quiz_leaderboards.updated_at', [$startOfMonth, $endOfMonth])
-            ->groupBy('users.id', 'users.name', 'users.email','users.image')
+            ->groupBy('users.id', 'users.name', 'users.email', 'users.image')
             ->orderByDesc('total_correct')
             ->get();
         $globalLeaderboard = DB::table('quiz_leaderboards')
-        ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
-        ->select('users.id as user_id',
-            'users.name',
-            'users.email',
-            'users.image', DB::raw('SUM(correctAnswer) as total_correct'))
-        ->groupBy('users.id', 'users.name', 'users.email','users.image')
-        ->orderByDesc('total_correct')
-        ->get();
+            ->join('users', 'quiz_leaderboards.user_id', '=', 'users.id')
+            ->select('users.id as user_id',
+                'users.name',
+                'users.email',
+                'users.image', DB::raw('SUM(correctAnswer) as total_correct'))
+            ->groupBy('users.id', 'users.name', 'users.email', 'users.image')
+            ->orderByDesc('total_correct')
+            ->get();
 
         $data = [
-            'globalLeaderboard' => $globalLeaderboard,
+            'globalLeaderboard'  => $globalLeaderboard,
             'monthlyLeaderboard' => $monthlyLeaderboard,
-            'todayLeaderboard' => $todayLeaderboard
+            'todayLeaderboard'   => $todayLeaderboard,
         ];
 
         return $this->success($data);
@@ -125,12 +122,23 @@ class HomeController extends Controller
 
     public function getStory()
     {
-        $story = Story::where('status',1)->with('contents')->get();
+        $story = Story::where('status', 1)->with('contents')->get();
 
         $data = [
-            'story' => $story
+            'story' => $story,
         ];
 
         return $this->success($data);
+    }
+
+    public function getWordPuzzle()
+    {
+        $puzzles = WordPuzzle::inRandomOrder()->limit(10)->get();
+        $data    = [
+            'puzzles' => $puzzles,
+        ];
+
+        return $this->success($data);
+
     }
 }
