@@ -23,6 +23,10 @@
                     wire:navigate>{{ __('Story') }}</flux:navlist.item>
                 <flux:navlist.item icon="home" :href="route('wordPuzzle')" :current="request()->routeIs('wordPuzzle')"
                     wire:navigate>{{ __('Word puzzle') }}</flux:navlist.item>
+                <flux:navlist.item icon="home" :href="route('spelingPuzzle')"
+                    :current="request()->routeIs('spelingPuzzle')" wire:navigate>
+                    {{ __('Spelling puzzle') }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 

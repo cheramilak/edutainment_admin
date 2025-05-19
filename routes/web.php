@@ -3,6 +3,7 @@
 use App\Livewire\QuizManagment;
 use App\Livewire\QuizQuestionForm;
 use App\Livewire\QuizQuestionManagment;
+use App\Livewire\SpelingPuzzleManagment;
 use App\Livewire\StoryContentManagment;
 use App\Livewire\StoryManagment;
 use App\Livewire\WordPuzzleManagment;
@@ -32,5 +33,6 @@ route::get('edit-quiz-questions/{slug}', QuizQuestionForm::class)->name('editQui
 Route::get('/story', StoryManagment::class)->name('story');
 Route::get('/story-content/{slug}', StoryContentManagment::class)->name('storyContent');
 Route::get('puzzlies', WordPuzzleManagment::class)->name('wordPuzzle');
+Route::get('speling-puzzlies', SpelingPuzzleManagment::class)->name('spelingPuzzle');
 
 require __DIR__ . '/auth.php';

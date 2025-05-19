@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use App\Models\QuizLeaderboard;
 use App\Models\QuizQuestion;
+use App\Models\SpellingPuzzle;
 use App\Models\Story;
 use App\Models\WordPuzzle;
 use Auth;
@@ -134,6 +135,17 @@ class HomeController extends Controller
     public function getWordPuzzle()
     {
         $puzzles = WordPuzzle::inRandomOrder()->limit(10)->get();
+        $data    = [
+            'puzzles' => $puzzles,
+        ];
+
+        return $this->success($data);
+
+    }
+
+    public function getSpelingPuzzle()
+    {
+        $puzzles = SpellingPuzzle::inRandomOrder()->limit(10)->get();
         $data    = [
             'puzzles' => $puzzles,
         ];

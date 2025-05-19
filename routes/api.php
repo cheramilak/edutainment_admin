@@ -22,6 +22,7 @@ Route::prefix('v1/')->group(function () {
         route::get('getLaderbaord', 'getLaderbaord');
         route::get('getStory', 'getStory');
         route::get('getWordPuzzle', 'getWordPuzzle');
+        route::get('getSpelingPuzzle', 'getSpelingPuzzle');
         route::post('setLeaderboard', 'setLeaderboard');
     });
 });
