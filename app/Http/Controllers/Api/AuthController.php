@@ -57,11 +57,11 @@ class AuthController extends Controller
 
     }
 
-    public function removeChild($id)
+    public function removeStudent($id)
     {
         $user = User::find($id);
         $user->delete();
-        $this->success(null,'Student sussuccfuly deleted');
+        $this->success(null, 'Student sussuccfuly deleted');
     }
 
     public function addStudent(Request $request)

@@ -11,6 +11,9 @@ Route::prefix('v1/')->group(function () {
         route::post('logout', 'logout')->middleware('auth:sanctum');
         route::post('updateProfile', 'updateProfile')->middleware('auth:sanctum');
         route::post('changePassword', 'changePassword')->middleware('auth:sanctum');
+        route::post('addStudent', 'addStudent')->middleware('auth:sanctum');
+        route::get('getStudent', 'getStudent')->middleware('auth:sanctum');
+        route::get('removeStudent/{id}', 'removeStudent')->middleware('auth:sanctum');
     });
 
     Route::middleware('auth:sanctum')->controller(HomeController::class)->group(function () {
