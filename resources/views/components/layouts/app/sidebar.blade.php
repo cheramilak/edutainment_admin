@@ -9,39 +9,38 @@
     <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-        <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
+        <a href="{{ route('home') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
             <x-app-logo />
         </a>
-
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Platform')" class="grid">
-                <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                    wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                <flux:navlist.item icon="home" :href="route('quiz')" :current="request()->routeIs('quiz')"
-                    wire:navigate>{{ __('Quiz') }}</flux:navlist.item>
-                <flux:navlist.item icon="home" :href="route('story')" :current="request()->routeIs('story')"
+                <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')">
+                    {{ __('Dashboard') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="question-mark-circle" :href="route('quiz')"
+                    :current="request()->routeIs('quiz')" wire:navigate>{{ __('Quiz') }}</flux:navlist.item>
+                <flux:navlist.item icon="megaphone" :href="route('story')" :current="request()->routeIs('story')"
                     wire:navigate>{{ __('Story') }}</flux:navlist.item>
-                <flux:navlist.item icon="home" :href="route('wordPuzzle')" :current="request()->routeIs('wordPuzzle')"
-                    wire:navigate>{{ __('Word puzzle') }}</flux:navlist.item>
-                <flux:navlist.item icon="home" :href="route('spelingPuzzle')"
+                <flux:navlist.item icon="chat-bubble-left-ellipsis" :href="route('wordPuzzle')"
+                    :current="request()->routeIs('wordPuzzle')" wire:navigate>{{ __('Word puzzle') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="sparkles" :href="route('spelingPuzzle')"
                     :current="request()->routeIs('spelingPuzzle')" wire:navigate>
                     {{ __('Spelling puzzle') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="user" :href="route('admins')" :current="request()->routeIs('admins')"
+                    wire:navigate>
+                    {{ __('Admins') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="user-circle" :href="route('parents')" :current="request()->routeIs('parents')"
+                    wire:navigate>
+                    {{ __('Parents') }}
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 
         <flux:spacer />
 
-        <flux:navlist variant="outline">
-            <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit"
-                target="_blank">
-                {{ __('Repository') }}
-            </flux:navlist.item>
-
-            <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-            </flux:navlist.item>
-        </flux:navlist>
 
         <!-- Desktop User Menu -->
         <flux:dropdown position="bottom" align="start">
@@ -138,6 +137,7 @@
     @fluxScripts
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v1.x.x/dist/livewire-sortable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
 </html>
