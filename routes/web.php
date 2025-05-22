@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AddminMiddleware;
 use App\Livewire\AdminDashboard;
 use App\Livewire\AdminManagment;
 use App\Livewire\ParentManagment;
@@ -18,7 +19,7 @@ use Livewire\Volt\Volt;
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', AddminMiddleware::class])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
